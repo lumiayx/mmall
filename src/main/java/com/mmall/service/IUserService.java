@@ -3,6 +3,8 @@ package com.mmall.service;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created by yinx on 17/10/23.
  */
@@ -12,4 +14,10 @@ public interface IUserService {
     ServerResponse<String> register(User user);
 
     ServerResponse<String> checkValid(String str, String type);
+
+    ServerResponse<User> getUserInfo(HttpSession session);
+
+    ServerResponse<String> forgetGetQuestion(String username);
+
+    ServerResponse<String> forgetCheckAnswer(String username, String question, String answer);
 }

@@ -4,6 +4,7 @@ import com.mmall.pojo.User;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(User record);
@@ -21,4 +22,9 @@ public interface UserMapper {
     User selectLogin(@Param("username") String username, @Param("password") String password);
 
     int checkUserEmail(String email);
+
+    String selectQuestionByUsername(String username);
+
+    int checkAnswer(@Param("username") String username, @Param("question") String question, @Param("answer") String answer);
+
 }

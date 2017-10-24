@@ -62,9 +62,51 @@ public class UserController {
      * @param type 校验的类型
      * @return
      */
-    @RequestMapping(value = "checkInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "check_valid.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> checkInfo(String str, String type) {
-        return iUserService.checkInfo(str, type);
+        return iUserService.checkValid(str, type);
     }
+
+
+    /**
+     * 获得登录信息
+     *
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "get_user_info.do", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<User> getUserInfo(HttpSession session) {
+        return iUserService.getUserInfo(session);
+    }
+
+    /**
+     * 根据用户名查找 忘记密码
+     *
+     * @param username
+     * @return
+     */
+    @RequestMapping(value = "forget_get_question.do", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<String> forgetGetQuestion(String username) {
+        return iUserService.forgetGetQuestion(username);
+    }
+
+
+    /**
+     * 提交问题答案,答案正确 token 存入govan 本地缓存,传回前端
+     *
+     * @param username
+     * @param question
+     * @param answer
+     * @return
+     */
+    @RequestMapping(value = "forget_check_answer.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> forgetCheckAnswer(String username, String question, String answer) {
+        return iUserService.forgetCheckAnswer(username, question, answer);
+    }
+
+    //TODO 重置密码
 }
