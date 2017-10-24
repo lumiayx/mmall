@@ -65,6 +65,6 @@ public class UserController {
     @RequestMapping(value = "checkInfo", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> checkInfo(String str, String type) {
-        return iUserService.checkValid(str, type);
+        return iUserService.checkInfo(str, type);
     }
 }
