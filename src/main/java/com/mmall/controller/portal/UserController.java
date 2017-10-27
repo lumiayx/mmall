@@ -4,6 +4,7 @@ import com.mmall.common.Const;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
+import com.sun.org.apache.xpath.internal.operations.String;
 import com.sun.security.ntlm.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -108,5 +109,15 @@ public class UserController {
         return iUserService.forgetCheckAnswer(username, question, answer);
     }
 
-    //TODO 重置密码
+    /**
+     * 忘记密码重置密码
+     *
+     * @return
+     */
+    @RequestMapping(value = "forget_reset_password.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
+        return ServerResponse.createByError("error");
+    }
+
 }
