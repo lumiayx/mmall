@@ -4,7 +4,6 @@ import com.mmall.common.Const;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
-import com.sun.org.apache.xpath.internal.operations.String;
 import com.sun.security.ntlm.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -111,15 +110,65 @@ public class UserController {
     
     //// TODO: 2017/10/27  
 
+
     /**
      * 忘记密码重置密码
      *
+     * @param username
+     * @param passwordNew
+     * @param forgetToken
      * @return
      */
-    @RequestMapping(value = "forget_reset_password.do", method = RequestMethod.POST)
+    @RequestMapping(value = "forget_reset_password.do", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
-        return ServerResponse.createByError("error");
+    public ServerResponse<String> forgetRestPassword(String username, String passwordNew, String forgetToken) {
+        return iUserService.forgetRestPassword(username, passwordNew, forgetToken);
+    }
+
+    /**
+     * 登陆状态的重置密码
+     *
+     * @param session
+     * @param passwordOld
+     * @param passwordNew
+     * @return
+     */
+    @RequestMapping(value = "reset_pasword.do", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<String> resetPasword(HttpSession session, String passwordOld, String passwordNew) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByErrorMessage("用户未登陆");
+        }
+
+        return iUserService.resetPasword(passwordOld, passwordNew, user);
+    }
+
+
+    /**
+     * 更新用户信息
+     *
+     * @param session
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "update_infomation.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<User> updateInfomation(HttpSession session, User user) {
+        User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+        if (currentUser == null) {
+            return ServerResponse.createByErrorMessage("用户未登陆");
+        }
+        user.setId(currentUser.getId());
+        user.setUsername(currentUser.getUsername());
+        ServerResponse<User> response = iUserService.updateInformation(user);
+        if (response.isSuccess()) {
+            //更新后放入session当中
+            session.setAttribute(Const.CURRENT_USER, response.getData());
+        }
+
+        return response;
+
     }
 
 }

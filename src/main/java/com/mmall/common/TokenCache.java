@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit;
 public class TokenCache {
     private static Logger logger = LoggerFactory.getLogger(TokenCache.class);
 
+    public static final String TOKEN_PREFIX = "token_";
+
     //1000 缓存的初始化容量  10000 lru算法优先排除缓存 12 12个小时
     private static LoadingCache<String, String> localCache = CacheBuilder.newBuilder()
             .initialCapacity(1000).maximumSize(10000).expireAfterAccess(12, TimeUnit.HOURS)
@@ -41,4 +43,6 @@ public class TokenCache {
         }
         return null;
     }
+
+    //git reset --hard 3628164  回退版本
 }
