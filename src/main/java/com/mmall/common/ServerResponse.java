@@ -43,7 +43,7 @@ public class ServerResponse<T> implements Serializable {
     }
 
     public String getStatus() {
-        return status;
+        return status+"";
     }
 
     public T getData() {

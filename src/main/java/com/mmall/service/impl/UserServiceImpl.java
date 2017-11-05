@@ -36,7 +36,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createBySuccess("登录成功", user);
     }
 
-    @Autowired
+    @Override
     public ServerResponse<String> register(User user) {
 
         ServerResponse validResponse = this.checkValid(user.getUsername(), Const.USER_NAME);
@@ -60,7 +60,7 @@ public class UserServiceImpl implements IUserService {
 
     }
 
-    @Autowired
+    @Override
     public ServerResponse<String> checkValid(String str, String type) {
         if (!StringUtils.isNotBlank(str)) {
             return ServerResponse.createByErrorMessage("校验信息不能为空");
@@ -79,10 +79,10 @@ public class UserServiceImpl implements IUserService {
                     return ServerResponse.createByErrorMessage("用户名已存在!");
                 }
             } else {
-                return ServerResponse.createByErrorMessage("没有要校验的类型!")
+                return ServerResponse.createByErrorMessage("没有要校验的类型!");
             }
         } else {
-            return ServerResponse.createByErrorMessage("参数错误!")
+            return ServerResponse.createByErrorMessage("参数错误!");
         }
 
         return ServerResponse.createBySuccess("校验成功");
