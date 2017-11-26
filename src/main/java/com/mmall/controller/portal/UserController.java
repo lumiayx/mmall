@@ -166,7 +166,6 @@ public class UserController {
             //更新后放入session当中
             session.setAttribute(Const.CURRENT_USER, response.getData());
         }
-
         return response;
 
     }

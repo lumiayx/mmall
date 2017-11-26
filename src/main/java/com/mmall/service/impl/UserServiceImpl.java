@@ -127,6 +127,7 @@ public class UserServiceImpl implements IUserService {
         }
         return ServerResponse.createByErrorMessage("问题的回答错误");
     }
+
     public ServerResponse<String> forgetRestPassword(String username, String passwordNew, String forgetToken) {
         if (StringUtils.isBlank(forgetToken)) {
             return ServerResponse.createByErrorMessage("参数错误,token需要传递");
@@ -190,6 +191,21 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createBySuccess("更新个人信息成功", updateUser);
         }
         return ServerResponse.createBySuccessMessage("更新个人信息失败");
+    }
+
+    //===============backend
+
+    /**
+     * 校验是否是管理员
+     *
+     * @param user
+     * @return
+     */
+    public ServerResponse checkAdminRole(User user) {
+        if (user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN) {
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
     }
 
 }
