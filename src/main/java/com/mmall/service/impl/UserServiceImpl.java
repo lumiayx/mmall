@@ -48,7 +48,7 @@ public class UserServiceImpl implements IUserService {
             return validResponse;
         }
 
-        validResponse = this.checkValid(user.getUsername(), Const.EMAIL);
+        validResponse = this.checkValid(user.getEmail(), Const.EMAIL);
         if (!validResponse.isSuccess()) {
             return validResponse;
         }
@@ -121,7 +121,7 @@ public class UserServiceImpl implements IUserService {
             //TODO 为什么要token
             String forgetToken = UUID.randomUUID().toString();
             //放到本地cache中,设置有效期
-            TokenCache.setKey("token_" + username, forgetToken);
+            TokenCache.setKey(TokenCache.TOKEN_PREFIX + username, forgetToken);
             return ServerResponse.createBySuccessMessage(forgetToken);
 
         }

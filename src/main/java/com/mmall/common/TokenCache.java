@@ -38,6 +38,7 @@ public class TokenCache {
             if ("null".equals(value)) {
                 return null;
             }
+            return value;
         } catch (Exception e) {
             logger.error("localCache get error", e);
         }

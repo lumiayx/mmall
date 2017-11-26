@@ -119,7 +119,7 @@ public class UserController {
      * @param forgetToken
      * @return
      */
-    @RequestMapping(value = "forget_reset_password.do", method = RequestMethod.GET)
+    @RequestMapping(value = "forget_reset_password.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> forgetRestPassword(String username, String passwordNew, String forgetToken) {
         return iUserService.forgetRestPassword(username, passwordNew, forgetToken);
@@ -133,7 +133,7 @@ public class UserController {
      * @param passwordNew
      * @return
      */
-    @RequestMapping(value = "reset_pasword.do", method = RequestMethod.GET)
+    @RequestMapping(value = "reset_pasword.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> resetPasword(HttpSession session, String passwordOld, String passwordNew) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
