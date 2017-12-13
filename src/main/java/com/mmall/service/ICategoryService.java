@@ -17,4 +17,5 @@ public interface ICategoryService {
 
     ServerResponse selectCategoryAndChildrenById(Integer categoryId);
 
+    ServerResponse delCategory(int categoryId);
 }

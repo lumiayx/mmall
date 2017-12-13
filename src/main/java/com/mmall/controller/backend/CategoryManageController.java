@@ -6,6 +6,7 @@ import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.service.ICategoryService;
 import com.mmall.service.IUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class CategoryManageController {
     private ICategoryService iCategoryService;
 
     //RequestParam 可以赋予默认值
-    @RequestMapping(value = "add_category.do", method = RequestMethod.GET)
+    @RequestMapping(value = "add_category.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse addCategory(HttpSession session, String categoryName, @RequestParam(value = "parentId", defaultValue = "0") int parentId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -48,7 +49,28 @@ public class CategoryManageController {
 
     }
 
-    @RequestMapping(value = "set_category_name.do", method = RequestMethod.GET)
+    //RequestParam 可以赋予默认值
+    @RequestMapping(value = "del_category.do", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse delCategory(HttpSession session, int categoryId) {
+        if(StringUtils.isEmpty(categoryId+"")){
+            return ServerResponse.createByErrorMessage("待删除的类型不能为空");
+        }
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录!");
+        }
+        //校验一下是否是管理员
+        if (iUserService.checkAdminRole(user).isSuccess()) {
+
+            return iCategoryService.delCategory(categoryId);
+        } else {
+            return ServerResponse.createByErrorMessage("无权限操作,需要管理员权限");
+        }
+
+    }
+
+    @RequestMapping(value = "set_category_name.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse setCategoryName(HttpSession session, Integer categoryId, String categoryName) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -96,4 +118,5 @@ public class CategoryManageController {
             return ServerResponse.createByErrorMessage("无权限操作,需要管理员权限");
         }
     }
+
 }

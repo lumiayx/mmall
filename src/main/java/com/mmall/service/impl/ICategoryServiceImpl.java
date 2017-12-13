@@ -90,6 +90,15 @@ public class ICategoryServiceImpl implements ICategoryService {
         return ServerResponse.createBySuccess(categoryIdList);
     }
 
+    @Override
+    public ServerResponse delCategory(int categoryId) {
+        int count = categoryMapper.deleteByPrimaryKey(categoryId);
+        if(count != 1){
+            return ServerResponse.createByErrorMessage("删除失败");
+        }
+        return ServerResponse.createBySuccessMessage("删除成功");
+    }
+
     //递归算法 算出子节点
     //set排重 因为重写了 hashcode 和equal方法
     private Set<Category> findChildCategory(Set<Category> categorySet, Integer categoryId) {

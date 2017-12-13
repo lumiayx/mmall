@@ -1,6 +1,7 @@
 package com.mmall.controller.portal;
 
 import com.mmall.common.Const;
+import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
@@ -168,6 +169,16 @@ public class UserController {
         }
         return response;
 
+    }
+
+    @RequestMapping(value = "get_infomation.do", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<User> getInfomation(HttpSession session){
+        User currentUser = (User)session.getAttribute(Const.CURRENT_USER);
+        if(currentUser == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登陆 需要强制登陆!");
+        }
+        return iUserService.getInformation(currentUser.getId());
     }
 
 }

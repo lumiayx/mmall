@@ -122,7 +122,7 @@ public class UserServiceImpl implements IUserService {
             String forgetToken = UUID.randomUUID().toString();
             //放到本地cache中,设置有效期
             TokenCache.setKey(TokenCache.TOKEN_PREFIX + username, forgetToken);
-            return ServerResponse.createBySuccessMessage(forgetToken);
+            return ServerResponse.createBySuccess(forgetToken);
 
         }
         return ServerResponse.createByErrorMessage("问题的回答错误");
@@ -206,6 +206,16 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
+    }
+
+    public ServerResponse<User> getInformation(Integer userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user == null) {
+            return ServerResponse.createBySuccessMessage("找不到当前用户");
+        }
+        user.setPassword(StringUtils.EMPTY);
+        return ServerResponse.createBySuccess(user);
+
     }
 
 }
